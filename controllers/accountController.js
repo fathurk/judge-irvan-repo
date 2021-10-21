@@ -11,7 +11,10 @@ class AccountController {
     .then( data => {
       // console.log(data, 'ini data');
       // console.log(req.body, 'ini req body');
-      if(bcrypt.compareSync(req.body.password, data.password)) {
+      // console.log(req.body.password);
+      let check = bcrypt.compareSync(req.body.password, data.password)
+      // console.log(check);
+      if(check) {
         // console.log('masuk if');
         req.session.accountid = data.id
         req.session.role = data.role
@@ -52,6 +55,7 @@ class AccountController {
       if(data) {
         throw new Error('Email sudah digunakan!')
       } else {
+        console.log(req.body, 'tangkap body');
         return Account.create({ username, email, phoneNumber, password, role })
       }
     })
