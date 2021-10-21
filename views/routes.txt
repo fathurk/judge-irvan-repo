@@ -1,0 +1,20 @@
+Routes, 20-oct-2021
+
+get /register
+post /register
+get /login
+
+get /seller/:sellerid/items
+get /seller/:sellerid/items/add
+post /seller/:sellerid/items/add
+get /seller/:sellerid?isActive=inactiveitems
+get /seller/:sellerid/items/delete
+get /seller/:sellerid/changeprofile
+post /seller/:sellerid/changeprofile
+
+get /buyer
+get /buyer/:buyerid/cart
+get /buyer/:buyerid/checkout
+get /buyer/:buyerid/addtocart
+get /buyer/:buyerid/deletefromcart
+get /buyer/:buyerid/changeprofile

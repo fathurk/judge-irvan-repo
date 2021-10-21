@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Add Item</title>
+</head>
+
+<body>
+  <%- include('partials/navbar') %>
+    <br>
+    <h2 class="d-flex justify-content-center">Add New Item</h2>
+    <br>
+    <form action="/sellers/<%= id %>/items/add" method="post" enctype="multipart/form-data">
+      <div class="container-lg">
+        <div class="row g-3">
+          <div class="col">
+            <label for="" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name">
+          </div>
+          <div class="col">
+            <label for="" class="form-label">Description</label>
+            <textarea type="text" class="form-control" name="description"></textarea>
+          </div>
+          <div class="col">
+            <label for="" class="form-label">Price</label>
+            <input type="text" class="form-control" name="price">
+          </div>
+          <div class="col">
+            <label for="" class="form-label">Stock</label>
+            <input type="text" class="form-control" name="stock">
+          </div>
+          <div>
+            <label for="" class="form-label">Image</label>
+            <input type="file" class="form-control" name="imageUrl">
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input type="submit" class="btn btn-primary" value="Add Item">
+      </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>

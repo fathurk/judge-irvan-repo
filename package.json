@@ -1,0 +1,32 @@
+{
+  "name": "judge-irvan-repo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "cloudinary": "^1.27.1",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "multer": "^1.4.3",
+    "multer-storage-cloudinary": "^4.0.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.7.0",
+    "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fathurk/judge-irvan-repo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fathurk/judge-irvan-repo/issues"
+  },
+  "homepage": "https://github.com/fathurk/judge-irvan-repo#readme"
+}

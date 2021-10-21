@@ -1,0 +1,27 @@
+<div>
+  <label>What kind of store do you want?</label><br>
+  <% for (let i = 0; i < categories.length; i++) { %>
+    <input type="radio" id="<%=i%>" name="category" value="<%=categories[i]%>">
+    <label for="<%=i%>"><%=categories[i]%></label><br>
+  <% } %>
+</div>
+
+<div>
+  <label>Education</label>
+  <select name="education">
+    <option value="SMA">SMA</option>
+    <option value="S1">S1</option>
+    <option value="S2">S2</option>
+    <option value="S3">S3</option>
+  </select>
+</div>
+
+<div>
+  <label>Position</label>
+  <select name="position">
+    <option value="Staff" <%= 'Staff' === data.position ? 'selected' : '' %>>Staff</option>
+    <option value="Supervisor" <%= 'Supervisor' === data.position ? 'selected' : '' %>>Supervisor</option>
+    <option value="Manager" <%= 'Manager' === data.position ? 'selected' : '' %>>Manager</option>
+    <option value="CEO" <%= 'CEO' === data.position ? 'selected' : '' %>>CEO</option>
+  </select>
+</div>
