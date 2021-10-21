@@ -1,4 +1,5 @@
 const { Account, Buyer, Seller } = require('../models/index')
+const bcrypt = require('bcryptjs')
 
 class AccountController {
   static login (req, res) {
@@ -10,7 +11,7 @@ class AccountController {
     .then( data => {
       // console.log(data, 'ini data');
       // console.log(req.body, 'ini req body');
-      if(data.dataValues.password == req.body.password) {
+      if(bcrypt.compareSync(req.body.password, data.password)) {
         // console.log('masuk if');
         req.session.accountid = data.id
         req.session.role = data.role
@@ -77,6 +78,11 @@ class AccountController {
       console.log(err);
       res.send(err)
     })
+  }
+
+  static logout(req, res) {
+    req.session = {}
+    res.redirect('/')
   }
 }
 

@@ -22,17 +22,17 @@
         <br>
         <h4>Stock: <%= data.stock %>
         </h4>
-        <h4>Seller: <%= data.SellerId %>
+        <h4>Seller Region: <%= data.Seller.cityRegion %>
         </h4>
         <br>
         <br>
         <p>
-          <%= data.desctiption %>
+          <%= data.description %>
         </p>
         <br>
-        <a href="/buyers/<%= el.id %>/addtocart" class="btn btn-danger">Add to cart</a>
+        <a href="/buyers/<%= data.id %>/addtocart" class="btn btn-danger">Add to cart</a>
 
-        <a href="/buyer/cart" class="btn btn-danger">Cart</a>
+        <a href="/buyer/<%= data.id %>/addtocart" class="btn btn-danger">Cart</a>
       </div>
     </div>
 
