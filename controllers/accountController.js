@@ -30,6 +30,7 @@ class AccountController {
       }
     })
     .catch( err => {
+      console.log(err, 'login err');
       res.send(err)
     })
   }

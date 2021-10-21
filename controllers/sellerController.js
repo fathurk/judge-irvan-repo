@@ -30,12 +30,12 @@ class SellerController {
   }
 
   static postAdditems (req, res) {
-    let sellerid = +req.session.roleId
+    let sellerid = req.session.roleId
     let { name, desciption, price, stock } = req.body
 
     Item.create({ name, desciption, price, stock, imageUrl: req.file.filename, SellerId: sellerid })
     .then( data => {
-      res.redirect(`/sellers/${sellerid}/items`)
+      res.redirect(`/sellers/items`)
     })
     .catch(err => {
       res.redirect(`/${sellerid}/items/add?errors=${err}`)
@@ -43,12 +43,13 @@ class SellerController {
   }
 
   static showAllItems (req, res) {
+    console.log(req.session);
     Item.findAll({where: {SellerId: req.session.roleId}})
     .then( data => {
-      let newImage = data.map(item => {
+      let image = data.map(item => {
         return cloudinary.url(item.imageUrl)
       })
-      res.render('home', {data, newImage})
+      res.render('itemsBySeller', {data, image})
     })
     .catch(err => {
       console.log(err);
