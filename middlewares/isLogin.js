@@ -1,5 +1,5 @@
 const isLogin = (req, res, next) => {
-  if (req.session.accountId) {
+  if (req.session.email) {
     next();
   } else {
     res.redirect('/login');
