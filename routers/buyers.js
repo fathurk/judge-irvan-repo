@@ -4,6 +4,7 @@ const buyer = express.Router()
 
 
 buyer.get('/', BuyerController.showAllItems)
+buyer.get('/:itemid', BuyerController.showDetailItems)
 buyer.get('/cart', BuyerController.showCart)
 buyer.get('/checkout', BuyerController.checkout)
 buyer.get('/delete/:cartid', BuyerController.deleteFromCart)

@@ -14,7 +14,7 @@ class BuyerController {
       let image = data.map( el => {
         cloudinary.url(el.imageUrl)
       })
-      res.send(data)
+      res.render('home', {data, image})
     })
   }
   
