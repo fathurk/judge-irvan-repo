@@ -13,12 +13,20 @@ class AccountController {
         req.session.role = data.role
 
         if(data.role == 'seller') {
-          res.redirect('/sellers')
+          return Seller.findOne({where: {AccountId: data.id}})
         } else { 
-          res.redirect('/buyers')
+          return Buyer.findOne({where: {AccountId: data.id}})
         }
       } else {
         throw new Error('Passwords do not match')
+      }
+    })
+    .then( data => {
+      req.session.roleId = data.id
+      if(req.session.role == 'seller') {
+        res.redirect('/sellers/items')
+      } else {
+        res.redirect('/buyers')
       }
     })
     .catch( err => {
@@ -46,12 +54,21 @@ class AccountController {
       req.session.role = role
 
       if(role == 'seller') {
-        res.redirect('/sellers')
+        return Seller.create({cityRegion: 'temp',AccountId: data.id})
+      } else {
+        return Buyer.create({address: 'temp',AccountId: data.id})
+      }
+    })
+    .then( data => {
+      req.session.roleId = data.id
+      if(role == 'seller') {
+        res.redirect('/sellers/items')
       } else {
         res.redirect('/buyers')
       }
     })
     .catch( err => {
+      console.log(err);
       res.send(err)
     })
   }
