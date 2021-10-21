@@ -1,6 +1,7 @@
 const { Account, Item, Seller, Cart, Buyer } = require('../models/index')
 const upload = require('../app')
 const cloudinary = require('cloudinary').v2
+const changeFormatCurrency = require('../helpers/changeFormatCurrency')
 
 class BuyerController {
   static showAllItems (req, res) {
@@ -14,7 +15,11 @@ class BuyerController {
       let image = data.map( el => {
         cloudinary.url(el.imageUrl)
       })
-      res.render('home', {data, image})
+
+      let newPrice = data.map(el => {
+        return changeFormatCurrency(el.price)
+      })
+      res.render('home', {data, image, newPrice})
     })
   }
   
@@ -69,7 +74,10 @@ class BuyerController {
     Item.findByPk(req.params.itemid, {include: Seller})
     .then( data => {
       let image = cloudinary.url(data.imageUrl)
-      res.send(data)
+      // console.log(data);
+      let info = data.info(data.Seller)
+      // console.log(info);
+      res.render('detailItem', {data, info})
     })
     .catch( err => {
       res.send(err)

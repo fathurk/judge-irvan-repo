@@ -31,9 +31,9 @@ class SellerController {
 
   static postAdditems (req, res) {
     let sellerid = req.session.roleId
-    let { name, desciption, price, stock } = req.body
+    let { name, description, price, stock } = req.body
 
-    Item.create({ name, desciption, price, stock, imageUrl: req.file.filename, SellerId: sellerid })
+    Item.create({ name, description, price, stock, imageUrl: req.file.filename, SellerId: sellerid })
     .then( data => {
       res.redirect(`/sellers/items`)
     })
@@ -105,7 +105,6 @@ class SellerController {
     Item.findByPk(req.params.itemid)
     .then( data => {
       cloudinary.uploader.destroy(data.imageUrl)
-
       res.render('editItemForm', {data, id: req.params.itemid})
     })
     .catch( err => {
