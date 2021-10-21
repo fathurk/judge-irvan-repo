@@ -22,15 +22,15 @@ const storage = new CloudinaryStorage({
 })
 
 const upload = multer({ storage });
-seller.get('/:sellerid/items', SellerController.showAllItems)
-seller.get('/:sellerid/items/add', SellerController.addItems)
-seller.post('/:sellerid/items/add', upload.single('imageUrl'), SellerController.postAdditems)
-seller.get('/:sellerid/changeprofile', SellerController.changeProfile)
-seller.post('/:sellerid/changeprofile', SellerController.postChangeProfile)
-seller.get('/:sellerid/:itemid/delete', SellerController.deleteItems)
-seller.get('/:sellerid/:itemid/edit', SellerController.editItems)
-seller.post('/:sellerid/:itemid/edit', upload.single('imageUrl'), SellerController.postEditItems)
-seller.get('/:sellerid/:itemid/changestatus', SellerController.changeStatus)
+seller.get('/items', SellerController.showAllItems)
+seller.get('/items/add', SellerController.addItems)
+seller.post('/items/add', upload.single('imageUrl'), SellerController.postAdditems)
+seller.get('/changeprofile', SellerController.changeProfile)
+seller.post('/changeprofile', SellerController.postChangeProfile)
+seller.get('/:itemid/delete', SellerController.deleteItems)
+seller.get('/:itemid/edit', SellerController.editItems)
+seller.post('/:itemid/edit', upload.single('imageUrl'), SellerController.postEditItems)
+seller.get('/:itemid/changestatus', SellerController.changeStatus)
 
 
 module.exports = seller

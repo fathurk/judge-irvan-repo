@@ -6,42 +6,25 @@ class AccountController {
   }
 
   static postLogin (req, res) {
-    Account.findOne({where: {email: req.body.email}})
+    Account.findOne({where: {username: req.body.username}})
     .then( data => {
       if(data.password == req.body.password) {
-        req.session.email = data.email
+        req.session.accountid = data.id
         req.session.role = data.role
 
         if(data.role == 'seller') {
-          res.redirect('/sellers')
-        } else {
-          res.redirect('/buyers')
+          return Seller.findOne({where: {AccountId: data.id}})
+        } else { 
+          return Buyer.findOne({where: {AccountId: data.id}})
         }
       } else {
         throw new Error('Passwords do not match')
       }
     })
-    .catch( err => {
-      res.send(err)
-    })
-  }
-
-  static register (req, res) {
-    let { username, email, password, phonenumber, role } = req.body
-    Account.findOne({where: {email}})
     .then( data => {
-      if(data) {
-        throw new Error('Email has been registered')
-      } else {
-        return Account.create({ username, email, password, phonenumber, role })
-      }
-    })
-    .then( data => {
-      req.session.email = email
-      req.session.role = role
-
-      if(role == 'seller') {
-        res.redirect('/sellers')
+      req.session.roleId = data.id
+      if(req.session.role == 'seller') {
+        res.redirect('/sellers/items')
       } else {
         res.redirect('/buyers')
       }
@@ -51,20 +34,41 @@ class AccountController {
     })
   }
 
+  static register (req, res) {
+   res.render('addAccountForm')
+  }
+
   static postRegister (req, res) {
-    let { username, email, phonenumber, password, role } = req.body
+    let { username, email, phoneNumber, password, role } = req.body
     Account.findOne({where: {email}})
     .then( data => {
       if(data) {
         throw new Error('Email sudah digunakan!')
       } else {
-        return Account.create({ username, email, phonenumber, password, role })
+        return Account.create({ username, email, phoneNumber, password, role })
       }
     })
     .then( data => {
-      res.redirect('/login')
+
+      req.session.accountid = data.id
+      req.session.role = role
+
+      if(role == 'seller') {
+        return Seller.create({cityRegion: 'temp',AccountId: data.id})
+      } else {
+        return Buyer.create({address: 'temp',AccountId: data.id})
+      }
+    })
+    .then( data => {
+      req.session.roleId = data.id
+      if(role == 'seller') {
+        res.redirect('/sellers/items')
+      } else {
+        res.redirect('/buyers')
+      }
     })
     .catch( err => {
+      console.log(err);
       res.send(err)
     })
   }

@@ -19,7 +19,7 @@ class BuyerController {
   }
   
   static addToCart (req, res) {
-    let buyerId = req.params.buyerId
+    let buyerId = req.session.roleId
     let itemId = req.params.itemId
     Cart.findOne({where: { ItemId: itemId, BuyerId: buyerId }})
     .then( data => {
@@ -38,7 +38,7 @@ class BuyerController {
   }
 
   static showCart (req, res) {
-    Cart.findAll({where: {BuyerId: req.params.buyerid}})
+    Cart.findAll({where: {BuyerId: req.session.roleId}})
     .then( data => {
       res.send(data)
     })
@@ -71,7 +71,7 @@ class BuyerController {
   static checkout (req, res) {
     let itemKey = []
     let quantityValue = []
-    Cart.findAll({where: {BuyerId: req.params.buyerid}})
+    Cart.findAll({where: {BuyerId: req.session.roleId}})
     .then( data => {
       data.forEach( el => {
         itemKey.push(el.ItemId)
@@ -81,7 +81,7 @@ class BuyerController {
       return Item.decrement('quantity', {by: quantityValue ,where: {id: itemKey}})
     })
     .then( data => { 
-      return Cart.destroy({where: {BuyerId: req.params.buyerId}})
+      return Cart.destroy({where: {BuyerId: req.session.roleId}})
     })
     .then( data => {
       res.redirect('/')
@@ -93,7 +93,7 @@ class BuyerController {
   }
 
   static changeProfile (req, res) {
-    Buyer.findByPk(req.params.buyerid, {include: Account})
+    Buyer.findByPk(req.session.roleId, {include: Account})
     .then( data => {
       res.send(data)
     })
@@ -101,7 +101,7 @@ class BuyerController {
 
   static postChangeProfile (req, res) {
     let { username, email, phonenumber, password } = req.body
-    Account.update({ username, email, phonenumber, password }, {where: { id: req.params.buyid}})
+    Account.update({ username, email, phonenumber, password }, {where: { id: req.session.roleId}})
     .then( data => {
       res.redirect('/buyer')
     })

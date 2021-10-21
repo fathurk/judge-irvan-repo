@@ -14,7 +14,7 @@
     <br>
     <h2 class="d-flex justify-content-center">Add New Item</h2>
     <br>
-    <form action="/sellers/<%= id %>/items/add" method="post" enctype="multipart/form-data">
+    <form action="/seller/:sellerid/items/add" method="post" enctype="multipart/form-data">
       <div class="container-lg">
         <div class="row g-3">
           <div class="col">
@@ -27,11 +27,11 @@
           </div>
           <div class="col">
             <label for="" class="form-label">Price</label>
-            <input type="text" class="form-control" name="price">
+            <input type="number" class="form-control" name="price">
           </div>
           <div class="col">
             <label for="" class="form-label">Stock</label>
-            <input type="text" class="form-control" name="stock">
+            <input type="number" class="form-control" name="stock">
           </div>
           <div>
             <label for="" class="form-label">Image</label>
