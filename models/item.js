@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       Item.belongsTo(models.Seller)
       Item.belongsToMany(models.Buyer, { through: 'Carts'})
     }
+
+    info(seller) {
+      return `Dikirim dari ${seller.cityRegion}`
+    }
   };
   Item.init({
     name: {

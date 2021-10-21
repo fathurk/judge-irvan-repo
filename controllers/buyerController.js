@@ -74,8 +74,10 @@ class BuyerController {
     Item.findByPk(req.params.itemid, {include: Seller})
     .then( data => {
       let image = cloudinary.url(data.imageUrl)
-      console.log(data);
-      res.render('detailItem', {data})
+      // console.log(data);
+      let info = data.info(data.Seller)
+      // console.log(info);
+      res.render('detailItem', {data, info})
     })
     .catch( err => {
       res.send(err)
