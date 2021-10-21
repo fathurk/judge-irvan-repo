@@ -105,11 +105,8 @@ class SellerController {
     Item.findByPk(req.params.itemid)
     .then( data => {
       cloudinary.uploader.destroy(data.imageUrl)
-      let passObj = {data}
-      if(req.query.errors) {
-        passObj.errors = req.query.errors
-      }
-      res.render('editItem', passObj)
+
+      res.render('editItemForm', {data, id: req.params.itemid})
     })
     .catch( err => {
       res.send(err)
@@ -117,22 +114,17 @@ class SellerController {
   }
 
   static postEditItems (req, res) {
-    let { name, description, price, stock, imageUrl } = req.body
+    let { name, description, price, stock } = req.body
     let sellerid = req.session.roleId
     let itemid = req.params.itemid
-    Item.update({ name, description, price, stock, imageUrl },{where: {id: req.params.itemid}})
+    Item.update({ name, description, price, stock, imageUrl: req.file.filename },{where: {id: req.params.itemid}})
     .then( data => {
-
-      res.redirect(`/seller/items`)
+      res.redirect(`/sellers/items`)
     })
     .catch( err => {
       res.send(err)
-      let errList = err.Errors.map( el => {
-        return el
-      })
-      res.redirect(`/sellers/${itemid}/edit?errors=${errList}`)
     })
-  }
+  } 
 
   static changeStatus (req, res) {
     Item.findOne({where: {id: req.params.itemid}})

@@ -14,7 +14,7 @@
     <br>
     <h2 class="d-flex justify-content-center">Edit Item</h2>
     <br>
-    <form action="/seller/:sellerid?isActive=inactiveitems" method="post">
+    <form action="/sellers/<%= id %>/edit" method="post" enctype="multipart/form-data">
       <div class="container-lg">
         <div class="row g-3">
           <div class="col">
@@ -35,11 +35,7 @@
           </div>
           <div>
             <label for="" class="form-label">Image</label>
-            <input type="text" class="form-control" name="imageURL" value="<%=data.imageURL%>">
-          </div>
-          <div>
-            <label for="" class="form-label">Seller</label>
-            <input type="text" class="form-control" name="SellerId" value="<%=data.SellerId%>">
+            <input type="file" class="form-control" name="imageUrl">
           </div>
         </div>
       </div>
