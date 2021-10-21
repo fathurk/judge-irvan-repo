@@ -35,6 +35,7 @@
                 <%= el.description %>
               </p>
               <a href="/sellers/<%=el.id%>/changestatus" class="btn btn-primary"><% if(el.isActive == true) {%> Active <% } else { %> inActive <% } %></a>
+              <a href="/sellers/<%= el.id %>/delete" class="btn btn-danger">Edit</a>
               <a href="/sellers/<%= el.id %>/delete" class="btn btn-danger">Delete</a>
             </div>
           </div>
