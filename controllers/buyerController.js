@@ -20,9 +20,11 @@ class BuyerController {
   
   static addToCart (req, res) {
     let buyerId = req.session.roleId
-    let itemId = req.params.itemId
+    let itemId = req.params.itemid
+    // console.log(req.session);  
     Cart.findOne({where: { ItemId: itemId, BuyerId: buyerId }})
     .then( data => {
+      console.log(data);
       if (data == null) {
         return Cart.create({BuyerId: buyerId, ItemId: itemId})
       } else {
@@ -30,19 +32,25 @@ class BuyerController {
       }
     })
     .then( data => {
-      res.redirect('/buyer')
+      // console.log('masuk');
+      res.redirect('/buyers')
     })
     .catch( err => {
+      console.log(err);
       res.send(err)
     })
   }
 
   static showCart (req, res) {
-    Cart.findAll({where: {BuyerId: req.session.roleId}})
+    Cart.findAll()
     .then( data => {
+      console.log('masuk');
+      console.log(data);
       res.send(data)
-    })
+    }) 
     .catch( err => {
+      console.log('errorr');
+      console.log(err);
       res.send(err)
     })
   }
