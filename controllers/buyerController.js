@@ -2,6 +2,7 @@ const { Account, Item, Seller, Cart, Buyer } = require('../models/index')
 const upload = require('../app')
 const cloudinary = require('cloudinary').v2
 const changeFormatCurrency = require('../helpers/changeFormatCurrency')
+const Op = require('sequelize').Op
 
 class BuyerController {
   static showAllItems (req, res) {
@@ -33,7 +34,7 @@ class BuyerController {
       if (data == null) {
         return Cart.create({BuyerId: buyerId, ItemId: itemId})
       } else {
-        return Cart.increment('quantity', {where : {BuyerId: buyerId, ItemId: itemId}})
+        res.redirect('/buyers')
       }
     })
     .then( data => {
@@ -47,11 +48,11 @@ class BuyerController {
   }
 
   static showCart (req, res) {
-    Cart.findAll()
+    Cart.findAll({where: {BuyerId: req.session.roleId}, include: Item})
     .then( data => {
       console.log('masuk');
       console.log(data);
-      res.send(data)
+      res.render('showCart', {data})
     }) 
     .catch( err => {
       console.log('errorr');
@@ -61,11 +62,12 @@ class BuyerController {
   }
 
   static deleteFromCart (req, res) {
-    Cart.destroy({where: {id: req.query.id}})
+    Cart.destroy({where: {id: req.params.cartid}})
     .then( data => {
-      res.redirect('/buyer')
+      res.redirect('/buyers')
     })
     .catch( err => {
+      console.log(err);
       res.send(err)
     })
   }
@@ -86,23 +88,23 @@ class BuyerController {
 
   static checkout (req, res) {
     let itemKey = []
-    let quantityValue = []
     Cart.findAll({where: {BuyerId: req.session.roleId}})
     .then( data => {
       data.forEach( el => {
         itemKey.push(el.ItemId)
-        quantityValue.push(el.quantity)
       })
-
-      return Item.decrement('quantity', {by: quantityValue ,where: {id: itemKey}})
+      console.log('masuk then pertama');
+      return Item.decrement('stock', {where: {id: itemKey}})
     })
     .then( data => { 
-      return Cart.destroy({where: {BuyerId: req.session.roleId}})
+      console.log('masuk then kedua');
+      return Cart.destroy({where: {BuyerId: req.session.roleId, stock: {[Op.gt]: 0}}})
     })
     .then( data => {
-      res.redirect('/')
+      res.redirect('/buyers')
     })
     .catch( err => {
+      console.log(err);
       res.send(err)
     })
 
@@ -119,7 +121,7 @@ class BuyerController {
     let { username, email, phonenumber, password } = req.body
     Account.update({ username, email, phonenumber, password }, {where: { id: req.session.roleId}})
     .then( data => {
-      res.redirect('/buyer')
+      res.redirect('/buyers')
     })
     .catch(err => {
       res.send(err)

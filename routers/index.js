@@ -4,7 +4,7 @@ const buyer = require('./buyers');
 const seller = require('./sellers');
 const router = express.Router();
 
-router.get('/')
+router.get('/', (req, res) => res.render('Landing'))
 router.get('/login', AccountController.login)
 router.post('/login', AccountController.postLogin)
 router.get('/register', AccountController.register)
