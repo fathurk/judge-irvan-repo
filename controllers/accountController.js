@@ -31,13 +31,13 @@ class AccountController {
   }
 
   static postRegister (req, res) {
-    let { username, email, phonenumber, password, role } = req.body
+    let { username, email, phoneNumber, password, role } = req.body
     Account.findOne({where: {email}})
     .then( data => {
       if(data) {
         throw new Error('Email sudah digunakan!')
       } else {
-        return Account.create({ username, email, phonenumber, password, role })
+        return Account.create({ username, email, phoneNumber, password, role })
       }
     })
     .then( data => {
