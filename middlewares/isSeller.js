@@ -2,7 +2,7 @@ const isSeller = (req, res, next) => {
   if (req.session.role === 'seller') {
     next();
   } else {
-    res.redirect('/');
+    res.redirect('/buyers');
   }
 };
 

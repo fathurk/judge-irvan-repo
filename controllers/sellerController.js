@@ -2,7 +2,7 @@ const { Account, Item, Seller, Cart, Buyer } = require('../models/index')
 const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-
+const Op = require('sequelize').Op
 
 cloudinary.config({ 
   cloud_name: 'hacktiv8', 
@@ -44,7 +44,11 @@ class SellerController {
 
   static showAllItems (req, res) {
     console.log(req.session);
-    Item.findAll({where: {SellerId: req.session.roleId}})
+    let opt = {where: {SellerId: req.session.roleId}}
+    if(req.query.search) {
+      opt.name = {[Op.iLike]: `%${req.query.search}%`}
+    }
+    Item.findAll(opt)
     .then( data => {
       let image = data.map(item => {
         return cloudinary.url(item.imageUrl)
@@ -84,9 +88,13 @@ class SellerController {
   }
 
   static deleteItems (req, res) {
-    Item.destroy({where: {id: req.params.itemid}})
+    Item.findOne({where: {id: req.params.itemid}})
+    .then ( data => {
+      cloudinary.uploader.destroy(data.imageUrl)
+      return Item.destroy({where: {id: req.params.itemid}})
+    })
     .then( data => {
-      res.redirect(`/seller/${req.session.roleId}/delete`)
+      res.redirect(`/sellers/items`)
     })
     .catch( err => {
       res.send(err)
