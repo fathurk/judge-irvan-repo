@@ -3,19 +3,18 @@ const bcrypt = require('bcryptjs')
 
 class AccountController {
   static login (req, res) {
-    res.render('login')
+    let opt = {error: null}
+    if(req.query.error) {
+      opt.error = req.query.error
+    }
+    res.render('login', opt)
   }
 
   static postLogin (req, res) {
     Account.findOne({where: {username: req.body.username}})
     .then( data => {
-      // console.log(data, 'ini data');
-      // console.log(req.body, 'ini req body');
-      // console.log(req.body.password);
       let check = bcrypt.compareSync(req.body.password, data.password)
-      // console.log(check);
       if(check) {
-        // console.log('masuk if');
         req.session.accountid = data.id
         req.session.role = data.role
 
@@ -30,17 +29,14 @@ class AccountController {
     })
     .then( data => {
       req.session.roleId = data.id
-      // console.log('ini session 2');
       if(req.session.role == 'seller') {
-        // console.log('masuk lagi lagi');
         res.redirect('/sellers/items')
       } else {
         res.redirect('/buyers')
       }
     })
     .catch( err => {
-      console.log(err, 'login err');
-      res.send(err)
+      res.redirect(`/login?error=${err}`)
     })
   }
 
