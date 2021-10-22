@@ -98,7 +98,7 @@ class BuyerController {
     })
     .then( data => { 
       console.log('masuk then kedua');
-      return Cart.destroy({where: {BuyerId: req.session.roleId, stock: {[Op.gt]: 0}}})
+      return Cart.destroy({where: {BuyerId: req.session.roleId}})
     })
     .then( data => {
       res.redirect('/buyers')
